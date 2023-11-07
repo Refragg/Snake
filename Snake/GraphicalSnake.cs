@@ -38,13 +38,18 @@ public class GraphicalSnake
     
     public static void Snake(string[] args)
     {
-        RenderWindow window = new RenderWindow(new VideoMode(800, 800), "Snake",  Styles.Close);
+        RenderWindow window = new RenderWindow(new VideoMode(TileSize * Columns, TileSize * Rows), "Snake",  Styles.Close);
         window.Closed += (sender, eventArgs) => window.Close();
         window.KeyPressed += WindowOnKeyPressed;
 
         // Initialize each row and each columns
         _tiles = new Sprite[Rows][];
 
+        // NOTE: We use any texture size other than the background texture
+        // which may not have the same size as the other textures
+        float xScale = (float)TileSize / _wallTexture.Size.X;
+        float yScale = (float)TileSize / _wallTexture.Size.Y;
+        
         for (int x = 0; x < Rows; x++)
         {
             _tiles[x] = new Sprite[Columns];
@@ -53,6 +58,8 @@ public class GraphicalSnake
                 Sprite sprite = new Sprite(_backgroundTexture)
                 {
                     Position = new Vector2f(y * TileSize, x * TileSize),
+                    TextureRect = new IntRect(0, 0, (int)_wallTexture.Size.X, (int)_wallTexture.Size.Y),
+                    Scale = new Vector2f(xScale, yScale)
                 };
                 
                 _tiles[x][y] = sprite;
