@@ -52,7 +52,7 @@ public class GraphicalSnake
             {
                 Sprite sprite = new Sprite(_backgroundTexture)
                 {
-                    Position = new Vector2f(x * TileSize, y * TileSize)
+                    Position = new Vector2f(y * TileSize, x * TileSize),
                 };
                 
                 _tiles[x][y] = sprite;
@@ -87,7 +87,7 @@ public class GraphicalSnake
             window.Clear(Color.Black);
             foreach ((Tile tile, Position position) in _snakeGame.Update())
             {
-                _tiles[position.Column][position.Row].Texture = tile.TileType switch
+                _tiles[position.Row][position.Column].Texture = tile.TileType switch
                 {
                     Tile.Type.WallTop => _wallTexture,
                     Tile.Type.WallBottom => _wallTexture,
